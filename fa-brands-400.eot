@@ -1,0 +1,78 @@
+$(document).ready(function () {
+
+  // MENU ACTIVE NO CLIQUE
+  document.querySelectorAll('.tm-nav-link').forEach(link => {
+    link.addEventListener('click', function () {
+      document.querySelectorAll('.tm-nav-link').forEach(l => l.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+window.addEventListener('scroll', () => {
+
+  const pos = window.scrollY;
+
+  const sobre = document.getElementById('sobre');
+  const faq = document.getElementById('faq');
+  const contato = document.getElementById('contato');
+
+  const linkLoja = document.getElementById('link-loja');
+  const linkSobre = document.getElementById('link-sobre');
+  const linkFaq = document.getElementById('link-faq');
+  const linkContato = document.getElementById('link-contato');
+
+  // limpa tudo
+  linkLoja.classList.remove('active');
+  linkSobre.classList.remove('active');
+  linkFaq.classList.remove('active');
+  linkContato.classList.remove('active');
+
+  if (pos >= contato.offsetTop - 200) {
+    linkContato.classList.add('active');
+
+  } else if (pos >= faq.offsetTop - 200) {
+    linkFaq.classList.add('active');
+
+  } else if (pos >= sobre.offsetTop - 200) {
+    linkSobre.classList.add('active');
+
+  } else {
+    linkLoja.classList.add('active');
+  }
+
+});
+
+$(document).on('click', '.tm-paging-link', function (e) {
+  e.preventDefault();
+
+  let filtro = $(this).data('filter');
+
+  $('.tm-paging-link').removeClass('active');
+  $(this).addClass('active');
+
+  if (filtro === 'all') {
+    $('.tm-gallery-item').show();
+    return;
+  }
+
+  $('.tm-gallery-item').hide();
+  $('.tm-gallery-item.' + filtro).show();
+});
+});
+
+function abrirProduto(index) {
+  const produto = produtos[index];
+
+  document.getElementById("modalNome").innerText = produto.nome;
+  document.getElementById("modalPreco").innerText = "R$" + produto.preco;
+  document.getElementById("modalDescricao").innerText = produto.descricao;
+
+  document.getElementById("modalProduto").style.display = "block";
+}
+
+// fechar modal
+document.addEventListener("click", function(e) {
+  if (e.target.classList.contains("fechar") || e.target.id === "modalProduto") {
+    document.getElementById("modalProduto").style.display = "none";
+  }
+});

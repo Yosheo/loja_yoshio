@@ -1,0 +1,19 @@
+const produtos = [
+  {
+    nome: "Seu produto",
+    preco: 150,
+    categoria: "mais-vendido",
+    imagem: "img/gallery/01.jpg",
+    imagemHover: "img/gallery/01-hover.jpg",
+    badge: "Mais vendido"
+  },
+  {
+    nome: "Produto promo",
+    preco: 15,
+    precoAntigo: 29.90,
+    categoria: "promocao",
+    imagem: "img/gallery/sem-estoq.jpg",
+    imagemHover: "img/gallery/sem-estoq-hover.jpg",
+    badge: "50% off"
+  }
+];

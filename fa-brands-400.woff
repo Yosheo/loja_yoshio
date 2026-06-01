@@ -1,0 +1,176 @@
+const produtos = [
+  {
+    nome: "Seu produto",
+    preco: 150,
+    imagem: "img/gallery/sem-estoq.jpg",
+    hover: "img/gallery/sem-estoq-hover.jpg",
+    categoria: "all mais-vendido",
+    badge: "Mais vendido",
+    promocao: false,
+    estoque: 1 
+  },
+  {
+    nome: "Produto Com Desconto",
+    preco: 150,
+    precoAntigo: 29.90,
+    imagem: "img/gallery/sem-estoq.jpg",
+    hover: "img/gallery/sem-estoq-hover.jpg",
+    categoria: "promocao",
+    desconto: "50% OFF",
+    estoque: 0
+  },
+  {
+    nome: "Produto Teste",
+    preco: 15,
+    imagem: "img/gallery/sem-estoq.jpg",
+    hover: "img/gallery/sem-estoq-hover.jpg",
+    categoria: "all",
+    desconto: "",
+    promocao: false,
+    estoque: 0
+  },
+  {
+    nome: "Seu produto",
+    preco: 25.50,
+    imagem: "img/gallery/sem-estoq.jpg",
+    hover: "img/gallery/sem-estoq-hover.jpg",
+    categoria: "barato",
+    badge: "",
+    promocao: false,
+    estoque: 2
+  },
+  {
+    nome: "Seu produto",
+    preco: 25.50,
+    imagem: "img/gallery/sem-estoq.jpg",
+    hover: "img/gallery/sem-estoq-hover.jpg",
+    categoria: "barato",
+    badge: "",
+    promocao: false,
+    estoque: 2
+  },
+  {
+    nome: "Seu produto",
+    preco: 25.50,
+    imagem: "img/gallery/sem-estoq.jpg",
+    hover: "img/gallery/sem-estoq-hover.jpg",
+    categoria: "barato",
+    badge: "",
+    promocao: false,
+    estoque: 2
+  },
+  {
+    nome: "Seu produto",
+    preco: 25.50,
+    imagem: "img/gallery/sem-estoq.jpg",
+    hover: "img/gallery/sem-estoq-hover.jpg",
+    categoria: "barato",
+    badge: "",
+    promocao: false,
+    estoque: 2
+  },
+  {
+    nome: "Seu produto",
+    preco: 25.50,
+    imagem: "img/gallery/sem-estoq.jpg",
+    hover: "img/gallery/sem-estoq-hover.jpg",
+    categoria: "mais-vendido",
+    badge: "Mais vendido",
+    promocao: false,
+    estoque: 1
+  },
+];
+
+const formatador = new Intl.NumberFormat('pt-BR', {
+  style: 'currency',
+  currency: 'BRL'
+});
+
+function renderProdutos() {
+  let container = document.querySelector(".tm-gallery-page");
+
+const produtosOrdenados = [...produtos].sort((a, b) => {
+  return (a.estoque === 0) - (b.estoque === 0);
+});
+  container.innerHTML = "";
+
+produtosOrdenados.forEach((p) => {
+
+  const indexOriginal = produtos.findIndex(prod => prod === p);
+
+    container.innerHTML += `
+<article onclick="abrirProduto(${indexOriginal})" class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item ${p.categoria}">
+        <figure class="produto">
+         <div class="produto-img">
+
+            ${p.badge ? `<div class="badge">${p.badge}</div>` : ""}
+            ${p.desconto ? `<div class="desconto">${p.desconto}</div>` : ""}
+
+            <img src="${p.imagem}" class="img-fluid tm-gallery-img img-principal">
+            <img src="${p.hover}" class="img-fluid tm-gallery-img img-hover">
+
+            <div class="barra-hover">Visualização rápida</div>
+          </div>
+
+          <figcaption>
+            <h4 class="tm-gallery-title">${p.nome}</h4>
+
+            <p class="tm-gallery-price">
+             ${p.estoque <= 0
+                  ? `<span class="preco-indisponivel">Indisponível!</span>`
+                  : `
+                      <span class="preco-novo">${formatador.format(p.preco)}</span>
+
+                      ${p.precoAntigo
+                        ? `<span class="preco-antigo">${formatador.format(p.precoAntigo)}</span>`
+                        : ""
+                      }
+                    `
+                }
+            </p>
+          </figcaption>
+
+        </figure>
+      </article>
+    `;
+  });
+}
+
+renderProdutos();
+
+
+function abrirProduto(index) {
+  const p = produtos[index];
+
+  document.getElementById("modalImagem").src = p.imagem;
+  document.getElementById("modalNome").innerText = p.nome;
+
+  document.getElementById("modalPreco").innerText =
+    p.estoque <= 0 ? "Indisponível" : formatador.format(p.preco);
+
+  document.getElementById("modalWhatsapp").href =
+    `https://wa.me/5541999999999?text=Olá, tenho interesse no produto: ${p.nome}`;
+
+  document.getElementById("modalProduto").style.display = "block";
+}
+
+function fecharModal() {
+  document.getElementById("modalProduto").style.display = "none";
+}
+
+// fechar clicando fora
+window.onclick = function(e) {
+  let modal = document.getElementById("modalProduto");
+  if (e.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+document.getElementById("modalPreco").innerText =
+  p.estoque <= 0 ? "Indisponível" : formatador.format(p.preco);
+
+if (p.estoque <= 0) {
+  document.querySelector(".btn-comprar").style.display = "none";
+} else {
+  document.querySelector(".btn-comprar").style.display = "inline-block";
+}
